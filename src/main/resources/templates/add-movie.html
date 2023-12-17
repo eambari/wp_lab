@@ -1,0 +1,70 @@
+<head>
+
+    <title>Add Movie</title>
+</head>
+<div>
+    <section>
+        <div>
+            <h1 class="jumbotron-heading">WEB PROGRAMMING MOVIE-APP </h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form th:action="@{/movies/add}" th:method="POST">
+                    <input id="id" type="hidden" name="id"
+                           th:value="(${movie} != null ? ${movie.getId()} : '')">
+                    <div class="form-group">
+                        <label for="movieTitle">Movie name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="movieTitle"
+                               name="movieTitle"
+                               th:value="(${movie} != null ? ${movie.getTitle()} : '')"
+                               required
+                               placeholder="Enter movie title">
+                    </div>
+                    <div>
+                        <label for="summary">Summary</label>
+                        <input type="text"
+                               id="summary"
+                               name="summary"
+                               th:value="(${movie} != null ? ${movie.getSummary()} : '')"
+                               placeholder="Summary">
+                    </div>
+                    <div>
+                        <label for="rating">Rating</label>
+                        <input type="text"
+                               id="rating"
+                               name="rating"
+                               th:value="(${movie} != null ? ${movie.getRating()} : '')"
+                               placeholder="rating">
+                    </div>
+                    <div>
+                        <label>Production</label>
+                        <label for="product">
+                            <select id="product" name="productionId" class="form-control">
+                                <option th:if="${movie} != null"
+                                        th:selected="${movie.getProduction() != null &&
+                                    movie.getProduction().getId() == prod.getId()}"
+                                        th:each="prod : ${productions}"
+                                        th:value="${prod.getId()}"
+                                        th:text="${prod.getName()}">
+                                </option>
+                                <option th:if="${movie} == null"
+                                        th:each="prod : ${productions}"
+                                        th:value="${prod.getId()}"
+                                        th:text="${prod.getName()}">
+                                </option>
+                            </select>
+                        </label>
+                    </div>
+                    <input th:if="${movie} != null" hidden="hidden" th:value="${movie.getId()}" name="movieId">
+                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                    <a type="button" class="btn btn-primary" href="/movies">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

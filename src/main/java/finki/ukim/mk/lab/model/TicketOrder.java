@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class TicketOrder {
-    long id;
-    String movieTitle;
-    String clientName;
-    String clientAddress;
-    int numberOfTickets;
+    private long id;
+    private String movieTitle;
+    private String clientName;
+    private String clientAddress;
+    private int numberOfTickets;
 
     public TicketOrder(String movieTitle, String clientName, String clientAddress, int numberOfTickets) {
         this.id = (long) (Math.random() * 1000);

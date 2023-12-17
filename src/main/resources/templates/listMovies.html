@@ -15,25 +15,43 @@
     <h1>Welcome to our Movie Ticket Shop App</h1>
 </header>
 <main>
-    <form th:method="post" th:action="@{/}">
+    <form th:method="post" th:action="@{/movies}">
         <input type="text" name="searchText" placeholder="Optional"/>
         <input type="submit" value="Search">
     </form>
-    <form th:method="post" th:action="@{/ticketOrder}">
+    <form th:action="@{'/movies/add'}"
+          th:method="GET">
+        <button type="submit">
+            <i>Add New Movie</i>
+        </button>
+    </form>
+    <form th:method="post" th:action="@{/ticketOrder}" id="ticketOrderForm"></form>
     <h2>Choose movie:</h2>
     <!-- Display radio buttons for each movie,
             the value should be the movie title
             and the displayed text should be Title: <movie_title>, Summary:<movie_summary>, Rating: <movie_rating> -->
     <th:block th:each="movie : ${movies}">
-        <input type="radio" th:id="${movie.getId()}" th:name="movie" th:value="${movie.getTitle()}" checked/>
-        <label th:for="${movie.getId()}" th:text="'Title: ' + ${movie.getTitle()} + ' Summary: ' + ${movie.getSummary()} + ' Rating: ' + ${movie.getRating()}"></label>
+        <input type="radio" th:id="${movie.getId()}" th:name="movie" th:value="${movie.getTitle()}" checked form="ticketOrderForm"/>
+        <label th:for="${movie.getId()}" th:text="'Title: ' + ${movie.getTitle()} + ' Summary: ' + ${movie.getSummary()} + ' Rating: ' + ${movie.getRating()} + ' Production: ' + ${movie.getProduction().getName()}"></label>
+        <th:block>
+            <form th:action="@{'/movies/delete/{id}' (id=${movie.getId()})}"
+                  th:method="DELETE">
+                <button type="submit">
+                    <i>Delete</i>
+                </button>
+            </form>
+        </th:block>
+        <th:block>
+            <a th:href="@{'/movies/edit/{id}' (id=${movie.getId()})}">
+                <i>Edit</i>
+            </a>
+        </th:block>
         <br/>
     </th:block>
     <h2>Choose number of tickets:</h2>
-    <input type="number" name="numTickets" min="1" max="10" value="1"><br/>
+    <input type="number" name="numTickets" min="1" max="10" value="1" form="ticketOrderForm"><br/>
     <br/>
-    <input type="submit" value="Submit">
-    </form>
+    <input type="submit" value="Submit" form="ticketOrderForm">
 </main>
 </body>
 </html>
